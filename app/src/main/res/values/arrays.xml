@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="Prod">
+        <item>ROLLER</item>
+        <item>PF</item>
+    </string-array>
+    <string-array name="Fabric">
+        <item>BO 183</item>
+        <item>BO 244</item>
+        <item>BO 305</item>
+        <item>SS 1%</item>
+        <item>SS 3%</item>
+        <item>SS 4%</item>
+        <item>SS 5%</item>
+        <item>SS 14%</item>
+        <item>BO MERMET</item>
+        <item>OTRA</item>
+    </string-array>
+    <string-array name="Cdn">
+        <item>p-b</item>
+        <item>p-n</item>
+        <item>MET</item>
+    </string-array>
+    <string-array name="Mnd">
+        <item>Derecho</item>
+        <item>Izquierdo</item>
+    </string-array>
+    <string-array name="Sdo">
+        <item>Normal</item>
+        <item>Invertida</item>
+    </string-array>
+    <string-array name="menu_curtain">
+        <item>Editar</item>
+        <item>Borrar</item>
+        <item>Duplicar</item>
+        <item>Opcional</item>
+    </string-array>
+    <string-array name="menu_invoice">
+        <item>Editar</item>
+        <item>Borrar</item>
+        <item>Copiar Orden</item>
+    </string-array>
+    <string-array name="moto">
+        <item>T</item>
+        <item>CR 1</item>
+        <item>CR 4</item>
+        <item>CR 6T</item>
+        <item>CR 16</item>
+    </string-array>
+    <string-array name="supl">
+        <item>2x2</item>
+        <item>4x2</item>
+        <item>5x2</item>
+        <item>7x4</item>
+        <item>9x4</item>
+    </string-array>
+    <string-array name="sup">
+        <item>Chico</item>
+        <item>Normal</item>
+        <item>Largo</item>
+        <item>XLargo</item>
+    </string-array>
+    <string-array name="listTitles">
+        <item>TELA</item>
+        <item>Anc</item>
+        <item>Alt</item>
+        <item>Mnd</item>
+        <item>Sdo</item>
+        <item>Cad</item>
+        <item>h</item>
+        <item>Ambiente</item>
+    </string-array>
+</resources>

@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">Cortina</string>
+    <string name="action_settings">Settings</string>
+    <string name="message_save">Grabado</string>
+    <string name="error_empty_fields">Campos Vacios</string>
+    <string name="empty_string"></string>
+    <string name="delete">Borrar</string>
+    <string name="edit">Editar</string>
+    <string name="send">Enviar</string>
+    <string name="duplicate">Duplicar</string>
+    <string name="optional">Opcional</string>
+    <string name="requestCode">requestCode</string>
+    <string name="saveFile">savefile</string>
+    <string name="copyToClippboard">Copiar Orden</string>
+    <string name="invoiceListFormat">%1$9s, %2$3d, %3$3d, %4$3s, %5$3s, %6$3s, %7$3d, %8$s</string>
+    <string name="invoiceTitleFormat">%1$15s   , %2$3s, %3$3s, %4$7s, %5$6s, %6$3s, %7$3s, %8$s</string>
+    <string name="fabricTitle">TELA</string>
+    <string name="widthTitle">Anc</string>
+    <string name="heightTitle">Alt</string>
+    <string name="mndTitle">Mnd</string>
+    <string name="sdoTitle">Sdo</string>
+    <string name="cadTitle">Cad</string>
+    <string name="hTitle">h</string>
+    <string name="roomTitle">Ambiente</string>
+    <string name="email"><![CDATA[
+        <html xmlns:o="urn:schemas-microsoft-com:office:office"
+            xmlns:x="urn:schemas-microsoft-com:office:excel"
+            xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+
+</head>
+
+<body>
+
+<div id="container" align="left">
+
+
+<!-- Titulo Cliente -->
+    <span> %1$s </span>
+
+<table border="1">
+ <tr>
+  <td>Ambiente</td>
+  <td>Tela</td>
+  <td>Ancho</td>
+  <td>Alto</td>
+  <td>Mndo</td>
+  <td>Sdo</td>
+  <td>Cad</td>
+  <td>h</td>
+  <td>OPS</td>
+  <td>Cps</td>
+  <td>Int</td>
+  <td>Sop</td>
+  <td>Doble</td>
+  <td>Motor</td>
+  <td>G. Lat</td>
+  <td>G. Inf</td>
+  <td>Sup</td>
+  <td>Cen</td>
+  <td>Opc</td>
+ </tr>
+ %2$s
+
+
+</table>
+
+</div>
+
+</body>
+
+</html>
+    ]]></string>
+    <string name="curtainText"><![CDATA[
+    <tr>
+  <td>%1$s</td>
+  <td>%2$s</td>
+  <td>%3$d</td>
+  <td>%4$d</td>
+  <td>%5$s</td>
+  <td>%6$s</td>
+  <td>%7$s</td>
+  <td>%8$d</td>
+  <td>%12$s</td>
+  <td>%9$s</td>
+  <td>%10$s</td>
+  <td>%18$s</td>
+  <td>%11$s</td>
+  <td>%13$s</td>
+  <td>%14$d</td>
+  <td>%15$d</td>
+  <td>%16$s</td>
+  <td>%17$d</td>
+  <td>%19$s</td>
+ </tr>
+    ]]></string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+</resources>

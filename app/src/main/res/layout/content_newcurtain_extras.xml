@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <CheckBox
+            android:text="Motorizado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkMotorized"
+            android:nextFocusForward="@+id/typeMotorized">
+            <requestFocus/>
+        </CheckBox>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/typeMotorized"
+            android:layout_toRightOf="@+id/checkMotorized"
+            android:layout_toEndOf="@+id/checkMotorized"
+            android:nextFocusForward="@+id/checkGuiasL"/>
+        <requestFocus />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/checkMotorized"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/layout1">
+
+            <CheckBox
+                android:text="Guias L"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkGuiasL"
+                android:layout_weight="1"
+                android:nextFocusForward="@+id/checkGuiasI"/>
+
+            <CheckBox
+                android:text="Guias I"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkGuiasI"
+                android:layout_weight="1"
+                android:nextFocusForward="@+id/editTextGLat"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout2"
+            android:layout_below="@+id/layout1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editTextGLat"
+                android:layout_weight="1"
+                android:hint="G Lat"
+                android:nextFocusForward="@+id/editTextGInf"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editTextGInf"
+                android:layout_weight="1"
+                android:hint="G inf"
+                android:nextFocusForward="@+id/checkSupl"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/layout3">
+
+            <CheckBox
+                android:text="Suplementos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkSupl"
+                android:nextFocusForward="@+id/typeSupl"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/typeSupl"
+                android:nextFocusForward="@+id/checkCenef"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout5"
+            android:layout_below="@+id/layout3">
+            <CheckBox
+                android:text="Cenefa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/checkCenef"
+                android:nextFocusForward="@+id/checkSup"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editTextCenef"
+                android:hint="G Lat" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout4"
+            android:layout_below="@+id/layout5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <CheckBox
+                android:text="Soporte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkSup"
+                android:layout_weight="1"
+                android:nextFocusForward="@+id/typeSup"/>
+
+            <Spinner
+                android:layout_width="224dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/typeSup"
+                android:nextFocusForward="@+id/typeProd"/>
+
+        </LinearLayout>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/typeProd"
+            android:layout_below="@+id/layout4"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:nextFocusForward="@+id/checkMotorized"/>
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

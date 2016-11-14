@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="result_OK">1</integer>
+    <integer name="result_CANCEL">0</integer>
+    <integer name="request_NORMAL">1</integer>
+    <integer name="request_EDIT">2</integer>
+</resources>
