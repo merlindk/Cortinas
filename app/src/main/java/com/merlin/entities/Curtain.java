@@ -6,13 +6,14 @@ import android.os.Parcelable;
 
 import com.merlin.cortina.R;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by Merlin on 9/11/2016.
  */
 
-public class Curtain implements Parcelable {
+public class Curtain implements Parcelable, Serializable {
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Curtain> CREATOR = new Parcelable.Creator<Curtain>() {
         @Override
@@ -45,7 +46,7 @@ public class Curtain implements Parcelable {
     private String sup;
     private String prod;
     private boolean optional;
-    private Context context;
+    private transient Context context;
     private String id;
     private boolean hasExtras;
 
@@ -332,9 +333,9 @@ public class Curtain implements Parcelable {
             counterValue = context.getResources().getString(R.string.no);
         }
         if (hasExtras) {
-            result = String.format(context.getResources().getString(R.string.curtainTextNoExtras), room, fabric, width, height, mando, sentido, cdn, alto, ops, opcional);
-        } else {
             result = String.format(context.getResources().getString(R.string.curtainText), room, fabric, width, height, mando, sentido, cdn, alto, counterValue, interValue, dobleValue, ops, moto, glat, ginf, supl, cenef, sup, opcional);
+        } else {
+            result = String.format(context.getResources().getString(R.string.curtainTextNoExtras), room, fabric, width, height, mando, sentido, cdn, alto, ops, opcional);
         }
         return result;
     }

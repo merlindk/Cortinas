@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -171,8 +172,8 @@ public class NewCurtainActivity extends AppCompatActivity {
 
                     Curtain newCurtain = new Curtain(heightValue, widthValue, fabricValue, room, cdnValue, mndValue, sdoValue, altoValue, opsValue, counterValue, interValue, dobleValue, motoValue, glatValue, ginfValue, suplValue, cenefValue, supValue, prodValue, optionalValue, areThereExtras, NewCurtainActivity.this);
                     if (isEditing) {
-                        resultIntent.putExtra(getResources().getString(R.string.idCurtain), newCurtain);
-                        resultIntent.putExtra(getResources().getString(R.string.idOldCurtain), editedCurtain);
+                        resultIntent.putExtra(getResources().getString(R.string.idCurtain), (Parcelable) newCurtain);
+                        resultIntent.putExtra(getResources().getString(R.string.idOldCurtain), (Parcelable) editedCurtain);
 
                         setResult(getResources().getInteger(R.integer.result_OK), resultIntent);
                         cleanNewCurtainFields();
@@ -301,14 +302,13 @@ public class NewCurtainActivity extends AppCompatActivity {
         hText.setText(R.string.empty_string);
         wText.setText(R.string.empty_string);
         OPSText.setText(R.string.empty_string);
-        roomText.setText(R.string.empty_string);
 
         checkInter.setChecked(false);
         checkDoble.setChecked(false);
 
-        typeSdo.setSelection(1);
-        typeCdn.setSelection(1);
-        typeMnd.setSelection(1);
+        typeSdo.setSelection(0);
+        typeCdn.setSelection(0);
+        typeMnd.setSelection(0);
 
     }
 

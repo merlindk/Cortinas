@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import com.merlin.cortina.R;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,7 +16,7 @@ import java.util.UUID;
  * Created by Merlin on 10/11/2016.
  */
 
-public class Invoice implements Parcelable {
+public class Invoice implements Parcelable, Serializable {
 
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Invoice> CREATOR = new Parcelable.Creator<Invoice>() {
@@ -32,7 +33,7 @@ public class Invoice implements Parcelable {
     private String client;
     private Calendar creationDate;
     private ArrayList<Curtain> curtains;
-    private Context context;
+    private transient Context context;
     private String id;
 
 

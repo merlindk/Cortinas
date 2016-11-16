@@ -3,6 +3,7 @@ package com.merlin.cortina;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -135,7 +136,7 @@ public class NewInvoiceActivity extends AppCompatActivity {
                     }
                     arrListNewCurtains = new ArrayList<>();
                     GeneralUtils.copyInvoiceToClippboard(selected, NewInvoiceActivity.this);
-                    newIntent.putExtra(getResources().getString(R.string.idInvoice), selected);
+                    newIntent.putExtra(getResources().getString(R.string.idInvoice), (Parcelable) selected);
                     setResult(getResources().getInteger(R.integer.result_OK), newIntent);
                     clearEditedInvoice();
                     finish();
@@ -214,7 +215,7 @@ public class NewInvoiceActivity extends AppCompatActivity {
         switch (menuItemName) {
             case "Editar":
                 intent = new Intent(NewInvoiceActivity.this, NewCurtainActivity.class);
-                intent.putExtra(getResources().getString(R.string.idCurtain), selected);
+                intent.putExtra(getResources().getString(R.string.idCurtain), (Parcelable) selected);
                 intent.putExtra(getResources().getString(R.string.requestCode), menuItemName);
                 startActivityForResult(intent, getResources().getInteger(R.integer.request_EDIT));
                 return true;
