@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                 fis.close();
             } catch (Exception f) {
                 GeneralUtils.copyTextToClippboard("Error reading , closing res.\n" + f.toString(), this);
-                Log.e("MainActivity", "error closing resources while reading data");
+                Log.e("MainActivity", "error closing resources while reading data.\n" + f.toString());
             }
         }
     }
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             } catch (Exception f) {
                 GeneralUtils.copyTextToClippboard("Error saving data, closing res.\n" + f.toString(), this);
-                Log.e("MainActivity", "Error closing resources while saving data");
+                Log.e("MainActivity", "Error closing resources while saving data.\n" + f.toString());
             }
         }
     }
