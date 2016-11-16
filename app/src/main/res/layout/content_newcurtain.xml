@@ -13,242 +13,241 @@
     tools:context="com.merlin.cortina.MainActivity">
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true">
 
-        <RelativeLayout
+
+        <EditText
+            android:id="@+id/editTextRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="13dp"
+            android:ems="10"
+            android:hint="@string/hintroom"
+            android:inputType="textPersonName"
+            android:nextFocusDown="@+id/typeFabric"
+            android:nextFocusForward="@+id/typeFabric"
+            android:nextFocusRight="@+id/typeFabric" />
+
+
+        <Spinner
+            android:id="@+id/typeFabric"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/editTextRoom"
+            android:layout_alignStart="@+id/editTextRoom"
+            android:layout_below="@+id/editTextRoom"
+            android:layout_marginTop="13dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:nextFocusDown="@+id/editTextWidth"
+            android:nextFocusForward="@+id/editTextWidth"
+            android:nextFocusRight="@+id/editTextWidth" />
 
-            android:layout_alignParentBottom="true">
+        <LinearLayout
+            android:id="@+id/layoutFirst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/typeFabric"
+            android:ems="10"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editTextWidth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_weight=".5"
+                android:ems="10"
+                android:hint="@string/hintwidth"
+                android:inputType="number"
+                android:nextFocusDown="@+id/editTextHeight"
+                android:nextFocusForward="@+id/editTextHeight"
+                android:nextFocusRight="@+id/editTextHeight" />
+
+            <EditText
+                android:id="@+id/editTextHeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_weight=".5"
+                android:ems="10"
+                android:hint="@string/hintheight"
+                android:inputType="number"
+                android:nextFocusDown="@+id/typeMnd"
+                android:nextFocusForward="@+id/typeMnd"
+                android:nextFocusRight="@+id/typeMnd" />
+        </LinearLayout>
 
 
+        <LinearLayout
+            android:id="@+id/layoutSecond"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/layoutFirst"
+            android:ems="10"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/typeMnd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_weight=".5"
+                android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:nextFocusDown="@+id/typeSdo"
+                android:nextFocusForward="@+id/typeSdo"
+                android:nextFocusRight="@+id/typeSdo" />
+
+            <Spinner
+                android:id="@+id/typeSdo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_weight=".5"
+                android:ems="10"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:nextFocusDown="@+id/editTextAlto"
+                android:nextFocusForward="@+id/editTextAlto"
+                android:nextFocusRight="@+id/editTextAlto" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutThird"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/layoutSecond"
+            android:ems="10"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editTextAlto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_weight=".5"
+                android:ems="10"
+                android:hint="@string/hintalto"
+                android:inputType="number"
+                android:nextFocusDown="@+id/typeCdn"
+                android:nextFocusForward="@+id/typeCdn"
+                android:nextFocusRight="@+id/typeCdn" />
+
+            <Spinner
+                android:id="@+id/typeCdn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:layout_weight=".5"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:nextFocusDown="@+id/checkContr"
+                android:nextFocusForward="@+id/checkContr"
+                android:nextFocusRight="@+id/checkContr" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutFifth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/layoutThird">
+
+            <LinearLayout
+                android:id="@+id/layoutFourth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkContr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:nextFocusDown="@+id/checkInter"
+                    android:nextFocusForward="@+id/checkInter"
+                    android:nextFocusRight="@+id/checkInter"
+                    android:text="@string/textcps" />
+
+                <CheckBox
+                    android:id="@+id/checkInter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:nextFocusDown="@+id/checkDoble"
+                    android:nextFocusForward="@+id/checkDoble"
+                    android:nextFocusRight="@+id/checkDoble"
+                    android:text="@string/textint" />
+
+                <CheckBox
+                    android:id="@+id/checkDoble"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:nextFocusForward="@+id/editTextOPS"
+                    android:nextFocusRight="@+id/editTextOPS"
+                    android:text="@string/textdob" />
+            </LinearLayout>
 
 
             <EditText
+                android:id="@+id/editTextOPS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="Ambiente"
-                android:layout_marginTop="13dp"
-                android:ems="10"
-                android:id="@+id/editTextRoom"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:nextFocusForward="@+id/typeFabric"/>
-
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/typeFabric"
-                android:layout_marginTop="13dp"
-                android:layout_below="@+id/editTextRoom"
-                android:layout_alignLeft="@+id/editTextRoom"
-                android:layout_alignStart="@+id/editTextRoom"
-                android:nextFocusForward="@+id/editTextWidth"/>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/layoutFirst"
+                android:layout_below="@+id/layoutFourth"
+                android:layout_marginTop="14dp"
                 android:ems="10"
-                android:layout_below="@+id/typeFabric"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/editTextWidth"
-                    android:layout_marginTop="11dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_weight=".5"
-                    android:hint="Ancho"
-                    android:nextFocusForward="@+id/editTextHeight"
-                    />
+                android:hint="@string/textops"
+                android:inputType="textPersonName" />
+        </RelativeLayout>
 
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/editTextHeight"
-                    android:layout_marginTop="11dp"
-                    android:hint="Alto"
-                    android:layout_alignBaseline="@+id/editTextWidth"
-                    android:layout_alignBottom="@+id/editTextWidth"
-                    android:layout_weight=".5"
-                    android:nextFocusForward="@+id/typeMnd"/>
-            </LinearLayout>
-
-
-            <Button
-                android:text="Volver"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnReturnCurtain"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/layoutSecond"
-                android:ems="10"
-                android:layout_below="@+id/layoutFirst"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true">
-
-                <Spinner
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/typeMnd"
-                    android:ems="10"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="11dp"
-                    android:layout_weight=".5"
-                    android:nextFocusForward="@+id/typeSdo"/>
-
-                <Spinner
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/typeSdo"
-                    android:ems="10"
-                    android:layout_marginTop="11dp"
-                    android:layout_alignBaseline="@+id/typeMnd"
-                    android:layout_alignBottom="@+id/typeMnd"
-                    android:layout_weight=".5"
-                    android:nextFocusForward="@+id/editTextAlto"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/layoutThird"
-                android:ems="10"
-                android:layout_below="@+id/layoutSecond"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true">
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Altura"
-                    android:id="@+id/editTextAlto"
-                    android:layout_marginTop="11dp"
-                    android:layout_alignBaseline="@+id/typeCdn"
-                    android:layout_alignBottom="@+id/typeCdn"
-                    android:layout_weight=".5"
-                    android:inputType="number"
-                    android:nextFocusForward="@+id/typeCdn"/>
-
-                <Spinner
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/typeCdn"
-                    android:layout_marginTop="19dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_weight=".5"
-                    android:nextFocusForward="@+id/checkContr"/>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/layoutThird"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_above="@+id/btnReturnCurtain">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/layoutFourth"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true">
-
-                    <CheckBox
-                        android:text="Cps"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:id="@+id/checkContr"
-                        android:nextFocusForward="@+id/checkInter"/>
-
-                    <CheckBox
-                        android:text="Int"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/checkContr"
-                        android:layout_alignLeft="@+id/checkContr"
-                        android:layout_alignStart="@+id/checkContr"
-                        android:id="@+id/checkInter"
-                        android:layout_alignRight="@+id/checkContr"
-                        android:layout_alignEnd="@+id/checkContr"
-                        android:nextFocusForward="@+id/checkDoble"/>
-
-                    <CheckBox
-                        android:text="Dob"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/checkInter"
-                        android:layout_alignLeft="@+id/checkInter"
-                        android:layout_alignStart="@+id/checkInter"
-                        android:id="@+id/checkDoble"
-                        android:layout_alignRight="@+id/checkInter"
-                        android:layout_alignEnd="@+id/checkInter"
-                        android:nextFocusForward="@+id/editTextOPS"/>
-                </LinearLayout>
-
-
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:id="@+id/editTextOPS"
-                    android:hint="OPS"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true" />
-            </RelativeLayout>
-
-            <Button
-            android:text="Guardar"
+        <Button
+            android:id="@+id/btnReturnCurtain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/layoutFifth"
+            android:layout_marginTop="10dp"
+            android:text="@string/textReturn" />
+
+        <Button
             android:id="@+id/btnSave"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/layoutFifth"
+            android:layout_marginTop="10dp"
+            android:text="@string/textSave" />
 
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

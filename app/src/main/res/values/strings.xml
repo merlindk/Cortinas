@@ -73,6 +73,48 @@
 
 </html>
     ]]></string>
+    <string name="emailNoExtras"><![CDATA[
+        <html xmlns:o="urn:schemas-microsoft-com:office:office"
+            xmlns:x="urn:schemas-microsoft-com:office:excel"
+            xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+
+</head>
+
+<body>
+
+<div id="container" align="left">
+
+
+<!-- Titulo Cliente -->
+    <span> %1$s </span>
+
+<table border="1">
+ <tr>
+  <td>Ambiente</td>
+  <td>Tela</td>
+  <td>Ancho</td>
+  <td>Alto</td>
+  <td>Mndo</td>
+  <td>Sdo</td>
+  <td>Cad</td>
+  <td>h</td>
+  <td>OPS</td>
+  <td>Opc</td>
+ </tr>
+ %2$s
+
+
+</table>
+
+</div>
+
+</body>
+
+</html>
+    ]]></string>
     <string name="curtainText"><![CDATA[
     <tr>
   <td>%1$s</td>
@@ -96,6 +138,59 @@
   <td>%19$s</td>
  </tr>
     ]]></string>
+        <string name="curtainTextNoExtras"><![CDATA[
+    <tr>
+  <td>%1$s</td>
+  <td>%2$s</td>
+  <td>%3$d</td>
+  <td>%4$d</td>
+  <td>%5$s</td>
+  <td>%6$s</td>
+  <td>%7$s</td>
+  <td>%8$d</td>
+  <td>%9$s</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>%10$s</td>
+ </tr>
+    ]]></string>
     <string name="yes">Si</string>
     <string name="no">No</string>
+    <string name="extrasdialogtitle">Mantener Extras</string>
+    <string name="extrasdialogmessage">Desea mantener los extras?</string>
+    <string name="textMotorized">Motorizado</string>
+    <string name="textGL">Guias L</string>
+    <string name="textGI">Guias I</string>
+    <string name="hintGLat">G Lat</string>
+    <string name="hintGInf">G inf</string>
+    <string name="textSupl">Suplementos</string>
+    <string name="textCenef">Cenefa</string>
+    <string name="hintCenef">Cenefa</string>
+    <string name="textSup">Soporte</string>
+    <string name="ok">OK</string>
+    <string name="x">X</string>
+    <string name="addcurtain">+ Cortina</string>
+    <string name="hintName">Nombre</string>
+    <string name="addinvoice">Cargar Pedido</string>
+    <string name="hintroom">Ambiente</string>
+    <string name="hintheight">Alto</string>
+    <string name="hintalto">Altura</string>
+    <string name="textcps">Cps</string>
+    <string name="textint">Int</string>
+    <string name="textdob">Dob</string>
+    <string name="textops">OPS</string>
+    <string name="textReturn">Volver</string>
+    <string name="textSave">Guardar</string>
+    <string name="hintwidth">Ancho</string>
+    <string name="idCurtain">curtain</string>
+    <string name="idOldCurtain">oldcurtain</string>
+    <string name="idInvoice">invoice</string>
+    <string name="saveandreturn">Guardar y Volver</string>
 </resources>

@@ -1,17 +1,30 @@
 package com.merlin.entities;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import com.merlin.cortina.MainActivity;
 import com.merlin.cortina.R;
 
-import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Created by Merlin on 9/11/2016.
  */
 
-public class Curtain implements Serializable{
+public class Curtain implements Parcelable {
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Curtain> CREATOR = new Parcelable.Creator<Curtain>() {
+        @Override
+        public Curtain createFromParcel(Parcel in) {
+            return new Curtain(in);
+        }
+
+        @Override
+        public Curtain[] newArray(int size) {
+            return new Curtain[size];
+        }
+    };
     private int height;
     private int width;
     private String fabric;
@@ -32,8 +45,11 @@ public class Curtain implements Serializable{
     private String sup;
     private String prod;
     private boolean optional;
+    private Context context;
+    private String id;
+    private boolean hasExtras;
 
-    public Curtain(int height, int width, String fabric, String room, String cdn, String mnd, String sdo, int alto, String ops, boolean counter, boolean inter, boolean doble, String moto, int glat, int ginf, String supl, int cenef, String sup, String prod, boolean optional) {
+    public Curtain(int height, int width, String fabric, String room, String cdn, String mnd, String sdo, int alto, String ops, boolean counter, boolean inter, boolean doble, String moto, int glat, int ginf, String supl, int cenef, String sup, String prod, boolean optional, boolean hasExtras, Context context) {
         this.height = height;
         this.width = width;
         this.fabric = fabric;
@@ -54,6 +70,50 @@ public class Curtain implements Serializable{
         this.sup = sup;
         this.prod = prod;
         this.optional = optional;
+        this.hasExtras = hasExtras;
+        this.context = context;
+        this.id = UUID.randomUUID().toString();
+    }
+
+    protected Curtain(Parcel in) {
+        height = in.readInt();
+        width = in.readInt();
+        fabric = in.readString();
+        room = in.readString();
+        cdn = in.readString();
+        mnd = in.readString();
+        sdo = in.readString();
+        alto = in.readInt();
+        ops = in.readString();
+        counter = in.readByte() != 0x00;
+        inter = in.readByte() != 0x00;
+        doble = in.readByte() != 0x00;
+        moto = in.readString();
+        glat = in.readInt();
+        ginf = in.readInt();
+        supl = in.readString();
+        cenef = in.readInt();
+        sup = in.readString();
+        prod = in.readString();
+        optional = in.readByte() != 0x00;
+        hasExtras = in.readByte() != 0x00;
+        id = in.readString();
+    }
+
+    public boolean isHasExtras() {
+        return hasExtras;
+    }
+
+    public void setHasExtras(boolean hasExtras) {
+        this.hasExtras = hasExtras;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public boolean isOptional() {
@@ -223,14 +283,14 @@ public class Curtain implements Serializable{
     @Override
     public String toString()
     {
-        Context context = MainActivity.getContext();
         String base = context.getResources().getString(R.string.invoiceListFormat);
         return String.format(base, fabric, width, height, mnd, sdo, cdn, alto, room);
 
     }
 
     public String getFormattedText(){
-        Context context = MainActivity.getContext();
+        String result;
+
         String mando;
         String sentido;
         String opcional;
@@ -271,11 +331,63 @@ public class Curtain implements Serializable{
         }else{
             counterValue = context.getResources().getString(R.string.no);
         }
-        return String.format(context.getResources().getString(R.string.curtainText), room, fabric, width, height, mando, sentido, cdn, alto, counterValue, interValue, dobleValue, ops, moto, glat, ginf, supl, cenef, sup, opcional);
+        if (hasExtras) {
+            result = String.format(context.getResources().getString(R.string.curtainTextNoExtras), room, fabric, width, height, mando, sentido, cdn, alto, ops, opcional);
+        } else {
+            result = String.format(context.getResources().getString(R.string.curtainText), room, fabric, width, height, mando, sentido, cdn, alto, counterValue, interValue, dobleValue, ops, moto, glat, ginf, supl, cenef, sup, opcional);
+        }
+        return result;
     }
 
     @Override
     public Curtain clone(){
-        return new Curtain(height, width, fabric, room, cdn, mnd, sdo, alto, ops, counter, inter, doble, moto, glat, ginf, supl, cenef, sup, prod, optional);
+        return new Curtain(height, width, fabric, room, cdn, mnd, sdo, alto, ops, counter, inter, doble, moto, glat, ginf, supl, cenef, sup, prod, optional, hasExtras, context);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(height);
+        dest.writeInt(width);
+        dest.writeString(fabric);
+        dest.writeString(room);
+        dest.writeString(cdn);
+        dest.writeString(mnd);
+        dest.writeString(sdo);
+        dest.writeInt(alto);
+        dest.writeString(ops);
+        dest.writeByte((byte) (counter ? 0x01 : 0x00));
+        dest.writeByte((byte) (inter ? 0x01 : 0x00));
+        dest.writeByte((byte) (doble ? 0x01 : 0x00));
+        dest.writeString(moto);
+        dest.writeInt(glat);
+        dest.writeInt(ginf);
+        dest.writeString(supl);
+        dest.writeInt(cenef);
+        dest.writeString(sup);
+        dest.writeString(prod);
+        dest.writeByte((byte) (optional ? 0x01 : 0x00));
+        dest.writeByte((byte) (hasExtras ? 0x01 : 0x00));
+        dest.writeString(id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Curtain curtain = (Curtain) o;
+
+        return id.equals(curtain.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

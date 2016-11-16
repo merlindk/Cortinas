@@ -1,14 +1,6 @@
 package com.merlin.utils;
 
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.security.Timestamp;
-import java.text.DateFormat;
-import java.util.Calendar;
+import android.content.Context;
 
 /**
  * Created by Merlin on 13/11/2016.
@@ -16,31 +8,31 @@ import java.util.Calendar;
 
 public class CustomExceptionHandler implements Thread.UncaughtExceptionHandler{
 
-    private Snackbar shower;
     private Thread.UncaughtExceptionHandler oldHandler;
-    private static StringBuffer log = new StringBuffer("");
-    private static CustomExceptionHandler handler = null;
+    private StringBuffer log = new StringBuffer("");
+    private CustomExceptionHandler handler = null;
+    private Context context;
 
-    public static CustomExceptionHandler getHandler(Thread.UncaughtExceptionHandler oldHandler){
-        if(CustomExceptionHandler.handler == null){
-            return new CustomExceptionHandler(oldHandler);
+    public CustomExceptionHandler(Thread.UncaughtExceptionHandler oldHandler, Context context) {
+        this.oldHandler = oldHandler;
+        this.context = context;
+    }
+
+    public CustomExceptionHandler getHandler(Thread.UncaughtExceptionHandler oldHandler, Context context) {
+        if (handler == null) {
+            return new CustomExceptionHandler(oldHandler, context);
         }else{
-            return CustomExceptionHandler.handler;
+            return handler;
         }
     }
-    public CustomExceptionHandler( Thread.UncaughtExceptionHandler oldHandler){
-        this.oldHandler = oldHandler;
-    }
-
 
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
-        Log.e("Exception", "Logged Exception: " + throwable.toString() + throwable.getStackTrace(), throwable);
         log.append(throwable.toString());
         for (int i = 0; i < throwable.getStackTrace().length; i++){
             log.append("\n" + throwable.getStackTrace()[i].toString());
         }
-        GeneralUtils.copyTextToClippboard(log.toString());
+        GeneralUtils.copyTextToClippboard(log.toString(), this.context);
         if (oldHandler != null)
             oldHandler.uncaughtException(
                     thread,

@@ -16,28 +16,28 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="206dp">
 
         <Button
-            android:text="Cargar Pedido"
+            android:id="@+id/btnNewRequest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnNewRequest"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:text="@string/addinvoice" />
 
     </RelativeLayout>
 
     <ListView
+        android:id="@+id/invoicesList"
         android:layout_width="wrap_content"
         android:layout_height="194dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:id="@+id/invoicesList" />
+        android:layout_alignParentTop="true" />
 
 </android.support.design.widget.CoordinatorLayout>

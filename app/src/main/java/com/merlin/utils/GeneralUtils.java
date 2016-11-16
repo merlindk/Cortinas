@@ -4,7 +4,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 
-import com.merlin.cortina.MainActivity;
 import com.merlin.entities.Invoice;
 
 /**
@@ -12,15 +11,14 @@ import com.merlin.entities.Invoice;
  */
 
 public class GeneralUtils {
-    private static Context context = MainActivity.getContext();
 
-    public static void copyInvoiceToClippboard(Invoice invoice){
+    public static void copyInvoiceToClippboard(Invoice invoice, Context context) {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("Pedido", invoice.getFormattedForEmail());
         clipboard.setPrimaryClip(clip);
     }
 
-    public static void copyTextToClippboard(String s){
+    public static void copyTextToClippboard(String s, Context context) {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("Pedido", s);
         clipboard.setPrimaryClip(clip);

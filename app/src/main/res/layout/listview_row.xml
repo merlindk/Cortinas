@@ -1,94 +1,94 @@
-<LinearLayout android:id="@+id/relativeLayout1"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/WHITE"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:background="@color/WHITE">
 
     <TextView
-        android:id = "@+id/cellFabric"
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_weight = "1"
-        android:background = "@drawable/cell_shape"
-        android:ellipsize = "end"
-        android:padding = "5dp"
-        android:text = "@string/fabricTitle"
-        android:maxLines = "1" />
+        android:id="@+id/cellFabric"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.8"
+        android:background="@drawable/cell_shape"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:text="@string/fabricTitle" />
 
     <TextView
-        android:id = "@+id/cellWidth"
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_weight = "2"
-        android:background = "@drawable/cell_shape"
-        android:ellipsize = "end"
-        android:padding = "5dp"
-        android:text = "@string/widthTitle"
-        android:maxLines = "1" />
+        android:id="@+id/cellWidth"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".7"
+        android:background="@drawable/cell_shape"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:text="@string/widthTitle" />
 
     <TextView
-        android:id = "@+id/cellHeight"
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_weight = "1.5"
-        android:background = "@drawable/cell_shape"
-        android:ellipsize = "end"
-        android:padding = "5dp"
-        android:text = "@string/heightTitle"
-        android:maxLines = "1" />
+        android:id="@+id/cellHeight"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".7"
+        android:background="@drawable/cell_shape"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:text="@string/heightTitle" />
 
     <TextView
-        android:id = "@+id/cellMnd"
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_weight = "1"
-        android:background = "@drawable/cell_shape"
-        android:ellipsize = "end"
-        android:padding = "5dp"
-        android:text = "@string/mndTitle"
-        android:maxLines = "1" />
+        android:id="@+id/cellMnd"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".7"
+        android:background="@drawable/cell_shape"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:text="@string/mndTitle" />
 
     <TextView
-        android:id = "@+id/cellSdo"
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_weight = "1"
-        android:background = "@drawable/cell_shape"
-        android:ellipsize = "end"
-        android:padding = "5dp"
-        android:text = "@string/sdoTitle"
-        android:maxLines = "1" />
+        android:id="@+id/cellSdo"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".7"
+        android:background="@drawable/cell_shape"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:text="@string/sdoTitle" />
 
     <TextView
-        android:id = "@+id/cellCdn"
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_weight = "2"
-        android:background = "@drawable/cell_shape"
-        android:ellipsize = "end"
-        android:padding = "5dp"
-        android:text = "@string/cadTitle"
-        android:maxLines = "1" />
+        android:id="@+id/cellCdn"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".7"
+        android:background="@drawable/cell_shape"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:text="@string/cadTitle" />
 
     <TextView
-        android:id = "@+id/cellAlto"
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_weight = "1.5"
-        android:background = "@drawable/cell_shape"
-        android:ellipsize = "end"
-        android:padding = "5dp"
-        android:text = "@string/hTitle"
-        android:maxLines = "1" />
+        android:id="@+id/cellAlto"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".7"
+        android:background="@drawable/cell_shape"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:text="@string/hTitle" />
 
     <TextView
-        android:id = "@+id/cellRoom"
-        android:layout_width = "0dp"
-        android:layout_height = "match_parent"
-        android:layout_weight = "1"
-        android:background = "@drawable/cell_shape"
-        android:ellipsize = "end"
-        android:padding = "5dp"
-        android:text = "@string/roomTitle"
-        android:maxLines = "1" />
+        android:id="@+id/cellRoom"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2.4"
+        android:background="@drawable/cell_shape"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:text="@string/roomTitle" />
 </LinearLayout>

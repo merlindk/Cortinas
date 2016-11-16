@@ -1,6 +1,7 @@
 package com.merlin.cortina;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -35,65 +36,76 @@ import java.util.List;
 public class NewInvoiceActivity extends AppCompatActivity {
 
 
-    private static ArrayList<Curtain> arrListNewCurtains;
-    private static ArrayList<List<String>> arrListTitles;
-    private static List<String> listTitles;
-    private static ListViewCurtainAdapter arrAdpCurtain;
-    private static ListViewTitleAdapter arrAdpTitle;
+    private ArrayList<Curtain> arrListNewCurtains;
+    private ArrayList<List<String>> arrListTitles;
+    private List<String> listTitles;
+    private ListViewCurtainAdapter arrAdaperCurtain;
+    private ListViewTitleAdapter arrAdapterTitle;
     private ListView curtainList;
     private ListView titleList;
     private TextView textViewName;
-    private static Invoice editedInvoice;
+    private Invoice editedInvoice;
     private Snackbar errorMessage;
     private String requestCode;
     private boolean isEditing;
+    private CustomExceptionHandler exceptionHandler;
 
-    public static void addCurtain(Curtain curtain){
-        arrListNewCurtains.add(curtain);
+    public void addCurtain(Curtain curtain) {
+        arrAdaperCurtain.productList.add(curtain);
     }
-    public static void setEditedInvoice(Invoice invoice){
-        editedInvoice = invoice;}
-    public static void removeCurtain(Curtain toRemove){
-        arrAdpCurtain.remove(toRemove);
+
+    public void replaceCurtain(Curtain toRemove, Curtain toAdd) {
+        int index = arrAdaperCurtain.productList.indexOf(toRemove);
+        arrAdaperCurtain.productList.remove(toRemove);
+        arrAdaperCurtain.productList.add(index, toAdd);
+        arrAdaperCurtain.notifyDataSetChanged();
     }
-    private void clearEditedInvoice(){
+
+    private void clearEditedInvoice() {
         editedInvoice = null;
         isEditing = false;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newinvoice);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         final Thread.UncaughtExceptionHandler oldHandler =
                 Thread.getDefaultUncaughtExceptionHandler();
-        if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
-            Thread.setDefaultUncaughtExceptionHandler(CustomExceptionHandler.getHandler(oldHandler));
+        exceptionHandler = new CustomExceptionHandler(oldHandler, NewInvoiceActivity.this);
+        if (!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
+            Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
         }
-        instantiateObjects();
-
-        Bundle b = getIntent().getExtras();
         Button btnSave = (Button) findViewById(R.id.btnSave);
         Button btnReturn = (Button) findViewById(R.id.btnReturnCurtain);
         Button btnNewCurtain = (Button) findViewById(R.id.btnNewCurtain);
-        textViewName.requestFocus();
 
-        if(b != null){
+        instantiateObjects();
+        textViewName.requestFocus();
+        Bundle b = getIntent().getExtras();
+
+
+        if (b != null) {
             requestCode = (String) b.get(getResources().getString(R.string.requestCode));
-            if(getResources().getString(R.string.edit).equalsIgnoreCase(requestCode)){
-                populateFieldsFromEdited();
+            if (getResources().getString(R.string.edit).equalsIgnoreCase(requestCode)) {
                 isEditing = true;
-                }}
+                editedInvoice = getIntent().getExtras().getParcelable(getResources().getString(R.string.idInvoice));
+                editedInvoice.setContext(this);
+                populateFieldsFromEdited();
+            }
+        }
 
         listTitles = Arrays.asList(getResources().getStringArray(R.array.listTitles));
         arrListTitles = new ArrayList<>();
         arrListTitles.add(listTitles);
-        arrAdpTitle = new ListViewTitleAdapter(this, arrListTitles);
-        titleList.setAdapter(arrAdpTitle);
-        arrAdpTitle.notifyDataSetChanged();
-        arrAdpCurtain = new ListViewCurtainAdapter(this, arrListNewCurtains);
-        curtainList.setAdapter(arrAdpCurtain);
-        arrAdpCurtain.notifyDataSetChanged();
+        arrAdapterTitle = new ListViewTitleAdapter(this, arrListTitles);
+        titleList.setAdapter(arrAdapterTitle);
+        arrAdapterTitle.notifyDataSetChanged();
+        arrAdaperCurtain = new ListViewCurtainAdapter(this, arrListNewCurtains);
+        curtainList.setAdapter(arrAdaperCurtain);
+        arrAdaperCurtain.notifyDataSetChanged();
 
         curtainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -106,27 +118,25 @@ public class NewInvoiceActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Invoice newInvoice;
+                Intent newIntent = new Intent();
                 Invoice selected;
                 String name = textViewName.getText().toString();
-                if(StringUtils.isEmpty(name)){
+                if (StringUtils.isEmpty(name)) {
                     errorMessage.show();
                 } else {
                     Calendar today = Calendar.getInstance();
-                    if(isEditing){
+                    if (isEditing) {
                         editedInvoice.setClient(name);
-                        editedInvoice.setCurtains(arrListNewCurtains);
+                        editedInvoice.setCurtains(arrAdaperCurtain.productList);
+
                         selected = editedInvoice;
-                    }
-                    else {
-                        newInvoice = new Invoice(name, today, arrListNewCurtains);
-                        selected = newInvoice;
-                        MainActivity.addInvoice(newInvoice);
+                    } else {
+                        selected = new Invoice(name, today, arrListNewCurtains, NewInvoiceActivity.this);
                     }
                     arrListNewCurtains = new ArrayList<>();
-                    GeneralUtils.copyInvoiceToClippboard(selected);
-
-                    setResult(getResources().getInteger(R.integer.result_OK));
+                    GeneralUtils.copyInvoiceToClippboard(selected, NewInvoiceActivity.this);
+                    newIntent.putExtra(getResources().getString(R.string.idInvoice), selected);
+                    setResult(getResources().getInteger(R.integer.result_OK), newIntent);
                     clearEditedInvoice();
                     finish();
                 }
@@ -155,21 +165,41 @@ public class NewInvoiceActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(resultCode == getResources().getInteger(R.integer.result_OK)){
-            arrAdpCurtain.notifyDataSetChanged();
-        }else{
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            if (resultCode == getResources().getInteger(R.integer.result_OK)) {
+                if (requestCode == getResources().getInteger(R.integer.request_NORMAL)) {
+                    ArrayList<Curtain> arrListTemp = data.getParcelableArrayListExtra(getResources().getString(R.string.idCurtain));
+                    for (Curtain newTempCurtain : arrListTemp) {
+                        newTempCurtain.setContext(this);
+                        addCurtain(newTempCurtain);
+                    }
 
+                } else if (requestCode == getResources().getInteger(R.integer.request_EDIT)) {
+                    Curtain newCurtain = data.getExtras().getParcelable(getResources().getString(R.string.idCurtain));
+                    Curtain oldCurtain = data.getExtras().getParcelable(getResources().getString(R.string.idOldCurtain));
+                    newCurtain.setContext(this);
+                    replaceCurtain(oldCurtain, newCurtain);
+                }
+                arrAdaperCurtain.notifyDataSetChanged();
+            }
+        } catch (Throwable e) {
+            StackTraceElement[] arrSt = e.getStackTrace();
+            StringBuilder sb = new StringBuilder();
+            for (StackTraceElement st : arrSt) {
+                sb.append("\n" + st.toString());
+            }
+            GeneralUtils.copyTextToClippboard(e.toString() + sb.toString(), this);
         }
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if(v.getId() == R.id.listCourtain){
+        if (v.getId() == R.id.listCourtain) {
             List<String> menuOptions = Arrays.asList(getResources().getStringArray(R.array.menu_curtain));
-            for (int i = 0 ; i < menuOptions.size(); i++) {
+            for (int i = 0; i < menuOptions.size(); i++) {
                 menu.add(Menu.NONE, i, i, menuOptions.get(i));
-             }
+            }
         }
     }
 
@@ -183,20 +213,20 @@ public class NewInvoiceActivity extends AppCompatActivity {
 
         switch (menuItemName) {
             case "Editar":
-                NewCurtainActivity.setEditedCurtain(selected);
                 intent = new Intent(NewInvoiceActivity.this, NewCurtainActivity.class);
+                intent.putExtra(getResources().getString(R.string.idCurtain), selected);
                 intent.putExtra(getResources().getString(R.string.requestCode), menuItemName);
                 startActivityForResult(intent, getResources().getInteger(R.integer.request_EDIT));
                 return true;
 
             case "Duplicar":
                 addCurtain(selected.clone());
-                arrAdpCurtain.notifyDataSetChanged();
+                arrAdaperCurtain.notifyDataSetChanged();
                 return true;
 
             case "Borrar":
-                arrAdpCurtain.remove(selected);
-                arrAdpCurtain.notifyDataSetChanged();
+                arrAdaperCurtain.remove(selected);
+                arrAdaperCurtain.notifyDataSetChanged();
                 return true;
 
             case "Opcional":
@@ -205,30 +235,31 @@ public class NewInvoiceActivity extends AppCompatActivity {
                 } else {
                     selected.setOptional(true);
                 }
-                arrAdpCurtain.notifyDataSetChanged();
+                arrAdaperCurtain.notifyDataSetChanged();
                 return true;
 
-            default: return false;
+            default:
+                return false;
 
         }
     }
 
-    private void populateFieldsFromEdited(){
+    private void populateFieldsFromEdited() {
         arrListNewCurtains = editedInvoice.getCurtains();
         textViewName.setText(editedInvoice.getClient());
     }
 
-    private void instantiateObjects(){
+    private void instantiateObjects() {
         textViewName = (TextView) findViewById(R.id.editTextName);
         arrListNewCurtains = new ArrayList<>();
         titleList = (ListView) findViewById(R.id.listTitles);
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_Invoice);
         errorMessage = Snackbar.make(coordinatorLayout, getResources().getString(R.string.error_empty_fields), Snackbar.LENGTH_LONG);
         View view = errorMessage.getView();
-        CoordinatorLayout.LayoutParams params =(CoordinatorLayout.LayoutParams)view.getLayoutParams();
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) view.getLayoutParams();
         params.gravity = Gravity.TOP;
         view.setLayoutParams(params);
 
-        curtainList= (ListView) findViewById(R.id.listCourtain);
+        curtainList = (ListView) findViewById(R.id.listCourtain);
     }
 }

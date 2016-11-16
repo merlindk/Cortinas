@@ -1,7 +1,7 @@
 package com.merlin.customs;
 
 import android.app.Activity;
-import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class ListViewCurtainAdapter extends BaseAdapter {
 
     public ArrayList<Curtain> productList;
-    Activity activity;
+    private Activity activity;
 
 
     public ListViewCurtainAdapter(Activity activity, ArrayList<Curtain> productList) {
@@ -38,17 +38,6 @@ public class ListViewCurtainAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    private class ViewHolder {
-        TextView mFabric;
-        TextView mWidth;
-        TextView mHeight;
-        TextView mMnd;
-        TextView mSdo;
-        TextView mCdn;
-        TextView mAlto;
-        TextView mRoom;
     }
 
     @Override
@@ -74,32 +63,32 @@ public class ListViewCurtainAdapter extends BaseAdapter {
         }
 
         Curtain item = productList.get(position);
-        holder.mFabric.setText(item.getFabric().toString());
+        holder.mFabric.setText(item.getFabric());
         holder.mWidth.setText(String.valueOf(item.getWidth()));
         holder.mHeight.setText(String.valueOf(item.getHeight()));
-        holder.mMnd.setText(item.getMnd().toString());
-        holder.mSdo.setText(item.getSdo().toString());
-        holder.mCdn.setText(item.getCdn().toString());
+        holder.mMnd.setText(item.getMnd());
+        holder.mSdo.setText(item.getSdo());
+        holder.mCdn.setText(item.getCdn());
         holder.mAlto.setText(String.valueOf(item.getAlto()));
-        holder.mRoom.setText(item.getRoom().toString());
-        if(item.isOptional()) {
-            holder.mFabric.setTextColor(activity.getResources().getColor(R.color.OPTIONAL));
-            holder.mWidth.setTextColor(activity.getResources().getColor(R.color.OPTIONAL));
-            holder.mHeight.setTextColor(activity.getResources().getColor(R.color.OPTIONAL));
-            holder.mMnd.setTextColor(activity.getResources().getColor(R.color.OPTIONAL));
-            holder.mSdo.setTextColor(activity.getResources().getColor(R.color.OPTIONAL));
-            holder.mCdn.setTextColor(activity.getResources().getColor(R.color.OPTIONAL));
-            holder.mAlto.setTextColor(activity.getResources().getColor(R.color.OPTIONAL));
-            holder.mRoom.setTextColor(activity.getResources().getColor(R.color.OPTIONAL));
-        }else{
-            holder.mFabric.setTextColor(activity.getResources().getColor(R.color.NORMAL));
-            holder.mWidth.setTextColor(activity.getResources().getColor(R.color.NORMAL));
-            holder.mHeight.setTextColor(activity.getResources().getColor(R.color.NORMAL));
-            holder.mMnd.setTextColor(activity.getResources().getColor(R.color.NORMAL));
-            holder.mSdo.setTextColor(activity.getResources().getColor(R.color.NORMAL));
-            holder.mCdn.setTextColor(activity.getResources().getColor(R.color.NORMAL));
-            holder.mAlto.setTextColor(activity.getResources().getColor(R.color.NORMAL));
-            holder.mRoom.setTextColor(activity.getResources().getColor(R.color.NORMAL));
+        holder.mRoom.setText(item.getRoom());
+        if (item.isOptional()) {
+            holder.mFabric.setTextColor(ContextCompat.getColor(activity, R.color.OPTIONAL));
+            holder.mWidth.setTextColor(ContextCompat.getColor(activity, R.color.OPTIONAL));
+            holder.mHeight.setTextColor(ContextCompat.getColor(activity, R.color.OPTIONAL));
+            holder.mMnd.setTextColor(ContextCompat.getColor(activity, R.color.OPTIONAL));
+            holder.mSdo.setTextColor(ContextCompat.getColor(activity, R.color.OPTIONAL));
+            holder.mCdn.setTextColor(ContextCompat.getColor(activity, R.color.OPTIONAL));
+            holder.mAlto.setTextColor(ContextCompat.getColor(activity, R.color.OPTIONAL));
+            holder.mRoom.setTextColor(ContextCompat.getColor(activity, R.color.OPTIONAL));
+        } else {
+            holder.mFabric.setTextColor(ContextCompat.getColor(activity, R.color.NORMAL));
+            holder.mWidth.setTextColor(ContextCompat.getColor(activity, R.color.NORMAL));
+            holder.mHeight.setTextColor(ContextCompat.getColor(activity, R.color.NORMAL));
+            holder.mMnd.setTextColor(ContextCompat.getColor(activity, R.color.NORMAL));
+            holder.mSdo.setTextColor(ContextCompat.getColor(activity, R.color.NORMAL));
+            holder.mCdn.setTextColor(ContextCompat.getColor(activity, R.color.NORMAL));
+            holder.mAlto.setTextColor(ContextCompat.getColor(activity, R.color.NORMAL));
+            holder.mRoom.setTextColor(ContextCompat.getColor(activity, R.color.NORMAL));
         }
         return convertView;
     }
@@ -107,5 +96,16 @@ public class ListViewCurtainAdapter extends BaseAdapter {
     public void remove(Curtain toRemove) {
         productList.remove(toRemove);
         notifyDataSetChanged();
+    }
+
+    private class ViewHolder {
+        TextView mFabric;
+        TextView mWidth;
+        TextView mHeight;
+        TextView mMnd;
+        TextView mSdo;
+        TextView mCdn;
+        TextView mAlto;
+        TextView mRoom;
     }
 }

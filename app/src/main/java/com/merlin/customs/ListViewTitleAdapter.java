@@ -8,15 +8,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.merlin.cortina.R;
-import com.merlin.entities.Curtain;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListViewTitleAdapter extends BaseAdapter {
 
-    public ArrayList<List<String>> productList;
-    Activity activity;
+    private ArrayList<List<String>> productList;
+    private Activity activity;
 
 
     public ListViewTitleAdapter(Activity activity, ArrayList<List<String>> productList) {
@@ -38,17 +37,6 @@ public class ListViewTitleAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    private class ViewHolder {
-        TextView mFabric;
-        TextView mWidth;
-        TextView mHeight;
-        TextView mMnd;
-        TextView mSdo;
-        TextView mCdn;
-        TextView mAlto;
-        TextView mRoom;
     }
 
     @Override
@@ -86,8 +74,15 @@ public class ListViewTitleAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void remove(Curtain toRemove) {
-        productList.remove(toRemove);
-        notifyDataSetChanged();
+    private class ViewHolder {
+        TextView mFabric;
+        TextView mWidth;
+        TextView mHeight;
+        TextView mMnd;
+        TextView mSdo;
+        TextView mCdn;
+        TextView mAlto;
+        TextView mRoom;
     }
+
 }

@@ -1,8 +1,12 @@
 package com.merlin.cortina;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -17,6 +21,7 @@ import com.merlin.entities.Curtain;
 import com.merlin.utils.CustomExceptionHandler;
 import com.merlin.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +31,9 @@ import java.util.List;
 
 public class NewCurtainActivity extends AppCompatActivity {
 
+    Button btnReturn;
+    Button btnSave;
+    TabHost tabHost;
     private TextView hText;
     private TextView wText;
     private TextView altoText;
@@ -34,7 +42,6 @@ public class NewCurtainActivity extends AppCompatActivity {
     private TextView guiaLText;
     private TextView guiaIText;
     private TextView cenefText;
-
     private Spinner typeFabric;
     private Spinner typeSdo;
     private Spinner typeCdn;
@@ -43,7 +50,6 @@ public class NewCurtainActivity extends AppCompatActivity {
     private Spinner typeSupl;
     private Spinner typeSup;
     private Spinner typeProd;
-
     private CheckBox checkCounter;
     private CheckBox checkInter;
     private CheckBox checkDoble;
@@ -53,53 +59,50 @@ public class NewCurtainActivity extends AppCompatActivity {
     private CheckBox checkCenef;
     private CheckBox checkSup;
     private CheckBox checkMoto;
-
     private Snackbar confirmMessage;
     private Snackbar errorMessage;
-
     private String requestCode;
     private boolean isEditing = false;
-
-    private static Curtain editedCurtain;
-
-    TabHost tabHost;
-
-    public static void setEditedCurtain(Curtain curtain){
-        editedCurtain = curtain;}
+    private ArrayList<Curtain> arrCurtain = new ArrayList<>();
+    private Curtain editedCurtain;
+    private CustomExceptionHandler exceptionHandler;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newcourtain);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         final Thread.UncaughtExceptionHandler oldHandler =
                 Thread.getDefaultUncaughtExceptionHandler();
-        if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
-            Thread.setDefaultUncaughtExceptionHandler(CustomExceptionHandler.getHandler(oldHandler));
+        exceptionHandler = new CustomExceptionHandler(oldHandler, NewCurtainActivity.this);
+        if (!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
+            Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
         }
 
         Bundle b = getIntent().getExtras();
-
-            instantiateObjects();
-            populateSpinners();
-            setTabs();
-            if (b != null) {
-                requestCode = (String) b.get(getResources().getString(R.string.requestCode));
-                if (getResources().getString(R.string.edit).equalsIgnoreCase(requestCode)) {
-                    populateFieldsFromEdited();
-                    isEditing = true;
-                }
+        instantiateObjects();
+        populateSpinners();
+        setTabs();
+        if (b != null) {
+            requestCode = (String) b.get(getResources().getString(R.string.requestCode));
+            if (getResources().getString(R.string.edit).equalsIgnoreCase(requestCode)) {
+                isEditing = true;
+                editedCurtain = getIntent().getExtras().getParcelable(getResources().getString(R.string.idCurtain));
+                populateFieldsFromEdited();
+                btnReturn.setVisibility(View.GONE);
+                btnSave.setText(getResources().getString(R.string.saveandreturn));
             }
+        }
 
 
-        Button btnReturn = (Button) findViewById(R.id.btnReturnCurtain);
-        Button btnSave = (Button) findViewById(R.id.btnSave);
+
 
 
         btnSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                Intent resultIntent = new Intent();
                 String motoValue = "";
                 int glatValue = 0;
                 int ginfValue = 0;
@@ -107,39 +110,48 @@ public class NewCurtainActivity extends AppCompatActivity {
                 int cenefValue = 0;
                 String supValue = "";
                 boolean showError = false;
-                    if (checkGuiasI.isChecked()) {
-                        if (StringUtils.isEmpty(guiaIText.getText().toString())) {
-                            showError = true;
-                         }else{
+                boolean areThereExtras = false;
+                if (checkGuiasI.isChecked()) {
+                    if (StringUtils.isEmpty(guiaIText.getText().toString())) {
+                        showError = true;
+                    } else {
                         ginfValue = Integer.valueOf(guiaIText.getText().toString());
-                    }}
-                    if (checkGuiasL.isChecked()) {
-                        if (StringUtils.isEmpty(guiaLText.getText().toString())) {
-                            showError = true;
-                        }else{
+                        areThereExtras = true;
+                    }
+                }
+                if (checkGuiasL.isChecked()) {
+                    if (StringUtils.isEmpty(guiaLText.getText().toString())) {
+                        showError = true;
+                    } else {
                         glatValue = Integer.valueOf(guiaLText.getText().toString());
-                    }}
+                        areThereExtras = true;
+                    }
+                }
                 if (checkCenef.isChecked()) {
                     if (StringUtils.isEmpty(cenefText.getText().toString())) {
                         showError = true;
-                    }else{
+                    } else {
                         cenefValue = Integer.valueOf(cenefText.getText().toString());
-                    }}
+                        areThereExtras = true;
+                    }
+                }
                 String room = roomText.getText().toString();
-                if(StringUtils.areEmpty(hText.getText().toString(), wText.getText().toString(), altoText.getText().toString(), room) || showError){
+                if (StringUtils.areEmpty(hText.getText().toString(), wText.getText().toString(), altoText.getText().toString(), room) || showError) {
                     errorMessage.show();
 
-                }else {
+                } else {
                     if (checkMoto.isChecked()) {
                         motoValue = typeMoto.getSelectedItem().toString();
+                        areThereExtras = true;
                     }
                     if (checkSupl.isChecked()) {
                         suplValue = typeSupl.getSelectedItem().toString();
+                        areThereExtras = true;
                     }
                     if (checkSup.isChecked()) {
                         supValue = typeSup.getSelectedItem().toString();
+                        areThereExtras = true;
                     }
-
 
                     int altoValue = Integer.valueOf(altoText.getText().toString());
                     int heightValue = Integer.valueOf(hText.getText().toString());
@@ -155,24 +167,34 @@ public class NewCurtainActivity extends AppCompatActivity {
                     String cdnValue = typeCdn.getSelectedItem().toString();
                     String mndValue = typeMnd.getSelectedItem().toString();
                     boolean optionalValue;
-                    if(editedCurtain != null){
-                        optionalValue = editedCurtain.isOptional();
-                    }else{
-                        optionalValue = false;
-                    }
-                    Curtain newCurtain = new Curtain(heightValue, widthValue, fabricValue, room, cdnValue, mndValue, sdoValue, altoValue, opsValue, counterValue, interValue, dobleValue, motoValue, glatValue, ginfValue, suplValue, cenefValue, supValue, prodValue, optionalValue);
+                    optionalValue = editedCurtain != null && editedCurtain.isOptional();
+
+                    Curtain newCurtain = new Curtain(heightValue, widthValue, fabricValue, room, cdnValue, mndValue, sdoValue, altoValue, opsValue, counterValue, interValue, dobleValue, motoValue, glatValue, ginfValue, suplValue, cenefValue, supValue, prodValue, optionalValue, areThereExtras, NewCurtainActivity.this);
                     if (isEditing) {
-                        NewInvoiceActivity.removeCurtain(editedCurtain);
-                        NewInvoiceActivity.addCurtain(newCurtain);
+                        resultIntent.putExtra(getResources().getString(R.string.idCurtain), newCurtain);
+                        resultIntent.putExtra(getResources().getString(R.string.idOldCurtain), editedCurtain);
+
+                        setResult(getResources().getInteger(R.integer.result_OK), resultIntent);
+                        cleanNewCurtainFields();
+                        clearEditedCurtain();
+                        confirmMessage.show();
+                        clearEditedCurtain();
+                        btnReturn.setVisibility(View.VISIBLE);
+                        btnSave.setText(getResources().getString(R.string.textSave));
+                        finish();
                     } else {
-                        NewInvoiceActivity.addCurtain(newCurtain);
+                        arrCurtain.add(newCurtain);
+                        resultIntent.putParcelableArrayListExtra(getResources().getString(R.string.idCurtain), arrCurtain);
+                        setResult(getResources().getInteger(R.integer.result_OK), resultIntent);
+                        if (areThereExtras) {
+                            showConfirmationExtras();
+                        }
+                        cleanNewCurtainFields();
+                        clearEditedCurtain();
+                        confirmMessage.show();
                     }
 
 
-                    cleanNewCurtainFields();
-                    cleanNewCurtainFieldsExtras();
-                    clearEditedCurtain();
-                    confirmMessage.show();
                 }
 
             }
@@ -181,16 +203,15 @@ public class NewCurtainActivity extends AppCompatActivity {
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clearEditedCurtain();
-                setResult(getResources().getInteger(R.integer.result_OK));
+                arrCurtain = new ArrayList<>();
                 finish();
             }
         });
 
     }
 
-    private void populateSpinners(){
-         List<String> typeOptions = Arrays.asList(getResources().getStringArray(R.array.Fabric));
+    private void populateSpinners() {
+        List<String> typeOptions = Arrays.asList(getResources().getStringArray(R.array.Fabric));
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, R.layout.spinner_custom_item, typeOptions);
         typeFabric.setAdapter(spinnerAdapter);
@@ -231,7 +252,7 @@ public class NewCurtainActivity extends AppCompatActivity {
         typeProd.setAdapter(spinnerAdapter);
     }
 
-    private void instantiateObjects(){
+    private void instantiateObjects() {
         hText = (TextView) findViewById(R.id.editTextHeight);
         wText = (TextView) findViewById(R.id.editTextWidth);
         altoText = (TextView) findViewById(R.id.editTextAlto);
@@ -254,11 +275,11 @@ public class NewCurtainActivity extends AppCompatActivity {
         confirmMessage = Snackbar.make(coordinatorLayout, R.string.message_save, Snackbar.LENGTH_SHORT);
         errorMessage = Snackbar.make(coordinatorLayout, getResources().getString(R.string.error_empty_fields), Snackbar.LENGTH_LONG);
         View view = errorMessage.getView();
-        CoordinatorLayout.LayoutParams params =(CoordinatorLayout.LayoutParams)view.getLayoutParams();
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) view.getLayoutParams();
         params.gravity = Gravity.TOP;
         view.setLayoutParams(params);
         view = confirmMessage.getView();
-        params =(CoordinatorLayout.LayoutParams)view.getLayoutParams();
+        params = (CoordinatorLayout.LayoutParams) view.getLayoutParams();
         params.gravity = Gravity.TOP;
         view.setLayoutParams(params);
 
@@ -271,9 +292,12 @@ public class NewCurtainActivity extends AppCompatActivity {
         checkSupl = (CheckBox) findViewById(R.id.checkSupl);
         checkSup = (CheckBox) findViewById(R.id.checkSup);
         checkMoto = (CheckBox) findViewById(R.id.checkMotorized);
+
+        btnReturn = (Button) findViewById(R.id.btnReturnCurtain);
+        btnSave = (Button) findViewById(R.id.btnSave);
     }
 
-    private void cleanNewCurtainFields(){
+    private void cleanNewCurtainFields() {
         hText.setText(R.string.empty_string);
         wText.setText(R.string.empty_string);
         OPSText.setText(R.string.empty_string);
@@ -282,17 +306,13 @@ public class NewCurtainActivity extends AppCompatActivity {
         checkInter.setChecked(false);
         checkDoble.setChecked(false);
 
-
         typeSdo.setSelection(1);
         typeCdn.setSelection(1);
         typeMnd.setSelection(1);
 
-
-
-
-
     }
-    private void cleanNewCurtainFieldsExtras(){
+
+    private void cleanNewCurtainFieldsExtras() {
         guiaLText.setText(R.string.empty_string);
         guiaIText.setText(R.string.empty_string);
         cenefText.setText(R.string.empty_string);
@@ -311,7 +331,7 @@ public class NewCurtainActivity extends AppCompatActivity {
 
     }
 
-    private void setTabs(){
+    private void setTabs() {
         tabHost = (TabHost) findViewById(R.id.tabhost);
         tabHost.setup();
 
@@ -327,7 +347,7 @@ public class NewCurtainActivity extends AppCompatActivity {
         tabHost.addTab(spec);
     }
 
-    private void populateFieldsFromEdited(){
+    private void populateFieldsFromEdited() {
         List<String> arrFabric = Arrays.asList(getResources().getStringArray(R.array.Fabric));
         List<String> arrMnd = Arrays.asList(getResources().getStringArray(R.array.Mnd));
         List<String> arrSdo = Arrays.asList(getResources().getStringArray(R.array.Sdo));
@@ -339,7 +359,7 @@ public class NewCurtainActivity extends AppCompatActivity {
 
         roomText.setText(editedCurtain.getRoom());
         hText.setText(String.valueOf(editedCurtain.getHeight()));
-        wText.setText("" + editedCurtain.getWidth());
+        wText.setText(String.valueOf(editedCurtain.getWidth()));
         typeFabric.setSelection(arrFabric.lastIndexOf(editedCurtain.getFabric()));
         typeMnd.setSelection(arrMnd.lastIndexOf(editedCurtain.getMnd()));
         typeSdo.setSelection(arrSdo.lastIndexOf(editedCurtain.getSdo()));
@@ -352,27 +372,27 @@ public class NewCurtainActivity extends AppCompatActivity {
         checkInter.setChecked(editedCurtain.isInter());
         checkDoble.setChecked(editedCurtain.isDoble());
 
-        if(arrMoto.lastIndexOf(editedCurtain.getMoto()) != -1) {
+        if (arrMoto.lastIndexOf(editedCurtain.getMoto()) != -1) {
             typeMoto.setSelection(arrMoto.lastIndexOf(editedCurtain.getMoto()));
             checkMoto.setChecked(true);
         }
-        if(editedCurtain.getGlat() != 0){
+        if (editedCurtain.getGlat() != 0) {
             checkGuiasL.setChecked(true);
             guiaLText.setText(String.valueOf(editedCurtain.getGlat()));
         }
-        if(editedCurtain.getGinf() != 0){
+        if (editedCurtain.getGinf() != 0) {
             checkGuiasI.setChecked(true);
             guiaIText.setText(String.valueOf(editedCurtain.getGinf()));
         }
-        if(arrSupl.lastIndexOf(editedCurtain.getSupl()) != -1) {
+        if (arrSupl.lastIndexOf(editedCurtain.getSupl()) != -1) {
             typeSupl.setSelection(arrSupl.lastIndexOf(editedCurtain.getSupl()));
             checkSupl.setChecked(true);
         }
-        if(editedCurtain.getCenef() != 0){
+        if (editedCurtain.getCenef() != 0) {
             checkCenef.setChecked(true);
             cenefText.setText(String.valueOf(editedCurtain.getCenef()));
         }
-        if(arrSup.lastIndexOf(editedCurtain.getSup()) != -1) {
+        if (arrSup.lastIndexOf(editedCurtain.getSup()) != -1) {
             typeSup.setSelection(arrSup.lastIndexOf(editedCurtain.getSup()));
             checkSup.setChecked(true);
         }
@@ -380,8 +400,40 @@ public class NewCurtainActivity extends AppCompatActivity {
 
     }
 
-    private void clearEditedCurtain(){
+    private void clearEditedCurtain() {
         isEditing = false;
         editedCurtain = null;
     }
+
+    private void showConfirmationExtras() {
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.extrasdialogtitle))
+                .setMessage(
+                        getResources().getString(R.string.extrasdialogmessage))
+                .setIcon(
+                        getResources().getDrawable(
+                                android.R.drawable.ic_dialog_alert))
+                .setPositiveButton(
+                        getResources().getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                //Do Something Here
+
+                            }
+                        })
+                .setNegativeButton(
+                        getResources().getString(R.string.no),
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                cleanNewCurtainFieldsExtras();
+                            }
+                        }).show();
+    }
+
 }

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <RelativeLayout
@@ -11,163 +10,166 @@
         android:layout_height="match_parent">
 
         <CheckBox
-            android:text="Motorizado"
+            android:id="@+id/checkMotorized"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/checkMotorized"
-            android:nextFocusForward="@+id/typeMotorized">
-            <requestFocus/>
+            android:nextFocusForward="@+id/typeMotorized"
+            android:text="@string/textMotorized">
+
+            <requestFocus />
         </CheckBox>
 
         <Spinner
+            android:id="@+id/typeMotorized"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/typeMotorized"
-            android:layout_toRightOf="@+id/checkMotorized"
             android:layout_toEndOf="@+id/checkMotorized"
-            android:nextFocusForward="@+id/checkGuiasL"/>
+            android:layout_toRightOf="@+id/checkMotorized"
+            android:nextFocusForward="@+id/checkGuiasL" />
+
         <requestFocus />
 
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/layout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/checkMotorized"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/layout1">
+            android:orientation="horizontal">
 
             <CheckBox
-                android:text="Guias L"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/checkGuiasL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:nextFocusForward="@+id/checkGuiasI"/>
+                android:nextFocusForward="@+id/checkGuiasI"
+                android:text="@string/textGL" />
 
             <CheckBox
-                android:text="Guias I"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/checkGuiasI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:nextFocusForward="@+id/editTextGLat"/>
+                android:nextFocusForward="@+id/editTextGLat"
+                android:text="@string/textGI" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/layout2"
-            android:layout_below="@+id/layout1"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/editTextGLat"
-                android:layout_weight="1"
-                android:hint="G Lat"
-                android:nextFocusForward="@+id/editTextGInf"/>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/editTextGInf"
-                android:layout_weight="1"
-                android:hint="G inf"
-                android:nextFocusForward="@+id/checkSupl"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:id="@+id/layout3">
+            android:layout_below="@+id/layout1"
+            android:orientation="horizontal">
 
-            <CheckBox
-                android:text="Suplementos"
+            <EditText
+                android:id="@+id/editTextGLat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/hintGLat"
+                android:inputType="number"
+                android:nextFocusDown="@+id/editTextGInf"
+                android:nextFocusForward="@+id/editTextGInf"
+                android:nextFocusRight="@+id/editTextGInf" />
+
+            <EditText
+                android:id="@+id/editTextGInf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/hintGInf"
+                android:inputType="number"
+                android:nextFocusDown="@+id/editTextCenef"
+                android:nextFocusForward="@+id/editTextCenef"
+                android:nextFocusRight="@+id/editTextCenef" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/layout2"
+            android:orientation="horizontal">
+
+            <CheckBox
                 android:id="@+id/checkSupl"
-                android:nextFocusForward="@+id/typeSupl"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:nextFocusForward="@+id/typeSupl"
+                android:text="@string/textSupl" />
 
             <Spinner
+                android:id="@+id/typeSupl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/typeSupl"
-                android:nextFocusForward="@+id/checkCenef"/>
+                android:nextFocusForward="@+id/checkCenef" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/layout5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/layout5"
-            android:layout_below="@+id/layout3">
+            android:layout_below="@+id/layout3"
+            android:orientation="horizontal">
+
             <CheckBox
-                android:text="Cenefa"
+                android:id="@+id/checkCenef"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/checkCenef"
-                android:nextFocusForward="@+id/checkSup"/>
+                android:nextFocusForward="@+id/checkSup"
+                android:text="@string/textCenef" />
 
             <EditText
+                android:id="@+id/editTextCenef"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:ems="10"
-                android:id="@+id/editTextCenef"
-                android:hint="G Lat" />
+                android:hint="@string/hintCenef"
+                android:inputType="number" />
         </LinearLayout>
 
 
-
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/layout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/layout4"
-            android:layout_below="@+id/layout5"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/layout5"
+            android:orientation="horizontal">
 
             <CheckBox
-                android:text="Soporte"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/checkSup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:nextFocusForward="@+id/typeSup"/>
+                android:nextFocusForward="@+id/typeSup"
+                android:text="@string/textSup" />
 
             <Spinner
+                android:id="@+id/typeSup"
                 android:layout_width="224dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/typeSup"
-                android:nextFocusForward="@+id/typeProd"/>
+                android:nextFocusForward="@+id/typeProd" />
 
         </LinearLayout>
 
         <Spinner
+            android:id="@+id/typeProd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/typeProd"
-            android:layout_below="@+id/layout4"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:nextFocusForward="@+id/checkMotorized"/>
+            android:layout_below="@+id/layout4"
+            android:nextFocusForward="@+id/checkMotorized" />
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

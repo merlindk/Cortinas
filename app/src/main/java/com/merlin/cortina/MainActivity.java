@@ -1,31 +1,23 @@
 package com.merlin.cortina;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.merlin.entities.Invoice;
 import com.merlin.utils.CustomExceptionHandler;
 import com.merlin.utils.GeneralUtils;
-
-import org.w3c.dom.Text;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -40,27 +32,30 @@ public class MainActivity extends AppCompatActivity {
     private static ArrayList<Invoice> arrListNewInvoices = new ArrayList<>();
     private ArrayAdapter<Invoice> arrAdptInvoice;
     private ListView invoicesListView;
-    private static Context context;
-    public static void addInvoice(Invoice newInvoice){
-        arrListNewInvoices.add(newInvoice);
+    private CustomExceptionHandler exceptionHandler;
+
+    public void addInvoice(Invoice invoice) {
+        arrListNewInvoices.add(invoice);
     }
-    public static Context getContext(){
-        return context;
+
+    public void replaceInvoice(Invoice toRemove, Invoice toAdd) {
+        int index = arrListNewInvoices.indexOf(toRemove);
+        arrListNewInvoices.remove(toRemove);
+        arrListNewInvoices.add(index, toAdd);
+        arrAdptInvoice.notifyDataSetChanged();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Fragment mainFragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.fragment_main);
-        mainFragment.setRetainInstance(true);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         final Thread.UncaughtExceptionHandler oldHandler =
                 Thread.getDefaultUncaughtExceptionHandler();
-
-        if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
-            Thread.setDefaultUncaughtExceptionHandler(CustomExceptionHandler.getHandler(oldHandler));
+        exceptionHandler = new CustomExceptionHandler(oldHandler, MainActivity.this);
+        if (!(Thread.getDefaultUncaughtExceptionHandler() instanceof CustomExceptionHandler)) {
+            Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
         }
-        context = this;
         readData();
         invoicesListView = (ListView) findViewById(R.id.invoicesList);
         arrAdptInvoice = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrListNewInvoices);
@@ -86,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
         saveData();
 
@@ -116,17 +111,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected  void onActivityResult(int requestCode, int resultCode, Intent data){
-        arrAdptInvoice.notifyDataSetChanged();
-        saveData();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == getResources().getInteger(R.integer.result_OK)) {
+            Invoice newInvoice = data.getExtras().getParcelable(getResources().getString(R.string.idInvoice));
+            newInvoice.setContext(this);
+            if (requestCode == getResources().getInteger(R.integer.request_NORMAL)) {
+
+                addInvoice(newInvoice);
+
+            } else if (requestCode == getResources().getInteger(R.integer.request_EDIT)) {
+                replaceInvoice(newInvoice, newInvoice);
+            }
+            arrAdptInvoice.notifyDataSetChanged();
+            saveData();
+        }
+
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        if(v.getId() == R.id.invoicesList){
+        if (v.getId() == R.id.invoicesList) {
             List<String> menuOptions = Arrays.asList(getResources().getStringArray(R.array.menu_invoice));
-            for (int i = 0 ; i < menuOptions.size(); i++) {
+            for (int i = 0; i < menuOptions.size(); i++) {
                 menu.add(Menu.NONE, i, i, menuOptions.get(i));
             }
         }
@@ -135,47 +142,50 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-        Invoice selected = arrListNewInvoices.get(info.position);
-        Intent intent;
-        List<String> menuItems = Arrays.asList(getResources().getStringArray(R.array.menu_invoice));
-        int menuIndex = item.getItemId();
-        String menuItemName = menuItems.get(menuIndex);
-        if(menuItemName.equalsIgnoreCase(getResources().getString(R.string.delete))){
-            arrAdptInvoice.remove(selected);
-            arrAdptInvoice.notifyDataSetChanged();
-        }else if(menuItemName.equalsIgnoreCase(getResources().getString(R.string.edit))){
-            NewInvoiceActivity.setEditedInvoice(selected);
-            intent = new Intent(MainActivity.this, NewInvoiceActivity.class);
-            intent.putExtra(getResources().getString(R.string.requestCode), menuItemName);
-            startActivityForResult(intent, getResources().getInteger(R.integer.request_EDIT));
-        }else if(menuItemName.equalsIgnoreCase(getResources().getString(R.string.copyToClippboard))){
-            GeneralUtils.copyInvoiceToClippboard(selected);
+        try {
+            Invoice selected = arrListNewInvoices.get(info.position);
+            Intent intent;
+            List<String> menuItems = Arrays.asList(getResources().getStringArray(R.array.menu_invoice));
+            int menuIndex = item.getItemId();
+            String menuItemName = menuItems.get(menuIndex);
+            if (menuItemName.equalsIgnoreCase(getResources().getString(R.string.delete))) {
+                arrAdptInvoice.remove(selected);
+                arrAdptInvoice.notifyDataSetChanged();
+            } else if (menuItemName.equalsIgnoreCase(getResources().getString(R.string.edit))) {
+                intent = new Intent(MainActivity.this, NewInvoiceActivity.class);
+                intent.putExtra(getResources().getString(R.string.requestCode), menuItemName);
+                intent.putExtra(getResources().getString(R.string.idInvoice), selected);
+                startActivityForResult(intent, getResources().getInteger(R.integer.request_EDIT));
+            } else if (menuItemName.equalsIgnoreCase(getResources().getString(R.string.copyToClippboard))) {
+                GeneralUtils.copyInvoiceToClippboard(selected, this);
+            }
+        } catch (Throwable e) {
+            GeneralUtils.copyTextToClippboard("main" + e.getMessage(), this);
         }
         return true;
     }
 
-    private void readData(){
+    private void readData() {
         FileInputStream fis = null;
         ObjectInputStream is = null;
-        try{
+        try {
             fis = this.openFileInput(getResources().getString(R.string.saveFile));
             is = new ObjectInputStream(fis);
             arrListNewInvoices = (ArrayList<Invoice>) is.readObject();
 
-        }catch(Exception e){
-
-        }finally{
-            try{
+        } catch (Exception e) {
+            Log.e("MainActivity", "reading data");
+        } finally {
+            try {
                 is.close();
                 fis.close();
-            }catch(Exception f){
-
+            } catch (Exception f) {
+                Log.e("MainActivity", "error closing resources while reading data");
             }
         }
     }
 
-    private void saveData(){
+    private void saveData() {
         FileOutputStream fos = null;
         ObjectOutputStream os = null;
         try {
@@ -183,17 +193,17 @@ public class MainActivity extends AppCompatActivity {
             os = new ObjectOutputStream(fos);
             os.writeObject(arrListNewInvoices);
         } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
-            try{
-                if(os != null || fos != null) {
+            Log.e("MainActivity", "Error saving data");
+        } finally {
+            try {
+                if (os != null || fos != null) {
                     os.close();
                     fos.close();
                 }
+            } catch (Exception f) {
+                Log.e("MainActivity", "Error closing resources while saving data");
             }
-            catch(IOException f){
-
-            }}
+        }
     }
 
 }
